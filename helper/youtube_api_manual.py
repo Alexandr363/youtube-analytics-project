@@ -15,7 +15,9 @@ youtube = build('youtube', 'v3', developerKey=api_key)
 
 
 def printj(dict_to_print: dict) -> None:
-    """Выводит словарь в json-подобном удобном формате с отступами"""
+    """
+    Выводит словарь в json-подобном удобном формате с отступами
+    """
     print(json.dumps(dict_to_print, indent=2, ensure_ascii=False))
 
 
@@ -23,11 +25,14 @@ def printj(dict_to_print: dict) -> None:
 получить данные о канале по его id
 docs: https://developers.google.com/youtube/v3/docs/channels/list
 
-сервис для быстрого получения id канала: https://commentpicker.com/youtube-channel-id.php
+сервис для быстрого получения id канала:
+https://commentpicker.com/youtube-channel-id.php
 '''
+
 # channel_id = 'UC-OVMPlMA3-YCIeg4z5z23A'  # MoscowPython
 channel_id = 'UCwHL6WHUarjGfUM_586me8w'  # HighLoad Channel
-channel = youtube.channels().list(id=channel_id, part='snippet,statistics').execute()
+channel = youtube.channels().list(id=channel_id,
+                                  part='snippet,statistics').execute()
 printj(channel)
 
 
@@ -35,6 +40,7 @@ printj(channel)
 получить данные по play-листам канала
 docs: https://developers.google.com/youtube/v3/docs/playlists/list
 '''
+
 playlists = youtube.playlists().list(channelId=channel_id,
                                      part='contentDetails,snippet',
                                      maxResults=50,
@@ -61,7 +67,8 @@ playlist_videos = youtube.playlistItems().list(playlistId=playlist_id,
 # printj(playlist_videos)
 
 # получить все id видеороликов из плейлиста
-video_ids: list[str] = [video['contentDetails']['videoId'] for video in playlist_videos['items']]
+video_ids: list[str] = [video['contentDetails']['videoId'] for video in
+                        playlist_videos['items']]
 # print(video_ids)
 
 
@@ -87,7 +94,8 @@ for video in video_response['items']:
 https://www.youtube.com/watch?v=gaoc9MPZ4bw или https://youtu.be/gaoc9MPZ4bw
 '''
 video_id = 'gaoc9MPZ4bw'
-video_response = youtube.videos().list(part='snippet,statistics,contentDetails,topicDetails',
+video_response = youtube.videos().list(part='snippet,statistics,'
+                                            'contentDetails,topicDetails',
                                        id=video_id
                                        ).execute()
 # printj(video_response)
