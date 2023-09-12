@@ -2,11 +2,6 @@ from src.channel import Channel
 
 if __name__ == '__main__':
     moscowpython = Channel('UC-OVMPlMA3-YCIeg4z5z23A')
-    """добавил вызов сюда, если вызвать в конце файла - json не создаётся
-    причины этого не понял + кодировку utf-8 указал, но кириллица почему-то 
-    не отображается корректно
-    """
-    moscowpython.to_json('moscowpython.json')
 
     # получаем значения атрибутов
     print(moscowpython.title)  # MoscowPython
@@ -22,7 +17,5 @@ if __name__ == '__main__':
     print(Channel.get_service())
     # <googleapiclient.discovery.Resource object at 0x000002B1E54F9750>
 
-    # создаем файл 'moscowpython.json' в данными по каналу
-    # moscowpython.to_json('moscowpython.json')
-
+    # создаем файл 'moscowpython.json' c данными по каналу
     moscowpython.to_json('moscowpython.json')

@@ -9,6 +9,7 @@ class Channel:
     """
     Класс для ютуб-канала
     """
+
     def __init__(self, channel_id: str) -> None:
         """Экземпляр инициализируется id канала. Дальше все данные будут
         подтягиваться по API
@@ -17,12 +18,13 @@ class Channel:
 
         response = (self.get_service().channels().
                     list(id=self.__channel_id,
-                         part='snippet,statistics').execute().get('items')[0])
+                    part='snippet,statistics').execute().get('items')[0])
 
         self.title = response.get('snippet').get('title')
         self.description = response.get('snippet').get('description')
         self.url = f'https://www.youtube.com/channel/{self.__channel_id}'
-        self.subscriberCount = response.get('statistics').get('subscriberCount')
+        self.subscriberCount = (response.get('statistics').
+                                get('subscriberCount'))
         self.video_count = response.get('statistics').get('videoCount')
         self.viewCount = response.get('statistics').get('viewCount')
 
@@ -55,4 +57,4 @@ class Channel:
             'subscriber_count': self.subscriberCount
         }
         with open(filename, 'w', encoding='utf-8') as file:
-            json.dump(channel_data, file)
+            json.dump(channel_data, file, ensure_ascii=False, indent=4)
