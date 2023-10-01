@@ -14,16 +14,23 @@ class Video:
         """Экземпляр инициализируется id канала. Дальше все данные будут
         подтягиваться по API
         """
-        self.id_video = id_video
 
-        response = youtube.videos().list(id=id_video,
-                                         part='snippet, statistics'
-                                         ).execute().get('items')[0]
-
-        self.title = response.get('snippet').get('title')
-        self.url = f'https://www.youtube.com/watch?v={self.id_video}'
-        self.viewCount = response.get('statistics').get('viewCount')
-        self.likeCount = response.get('statistics').get('likeCount')
+        try:
+            response = youtube.videos().list(id=id_video,
+                                             part='snippet, statistics'
+                                             ).execute().get('items')[0]
+            self.id_video = id_video
+            self.title = response.get('snippet').get('title')
+            self.title = response['items'][0]['snippet']['title']
+            self.url = f'https://www.youtube.com/watch?v={self.id_video}'
+            self.viewCount = response.get('statistics').get('viewCount')
+            self.like_count = response.get('statistics').get('likeCount')
+        except IndexError:
+            self.id_video = id_video
+            self.title = None
+            self.url = None
+            self.viewCount = None
+            self.like_count = None
 
     def __str__(self):
         return f"{self.title}"
